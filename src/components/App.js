@@ -1,5 +1,7 @@
 import React from 'react';
+import 'fontsource-roboto';
 import BillSplit from './BillSplitter/BillSplit';
+
 
 function App() {  
   return (

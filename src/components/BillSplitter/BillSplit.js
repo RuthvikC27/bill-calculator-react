@@ -1,10 +1,30 @@
 import React, {useState, useEffect} from 'react';
-import './BillSplit.css';
+
+import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+// import Paper from '@material-ui/core/Paper';
+import {makeStyles} from '@material-ui/core/styles'; 
+
+const useStyles = makeStyles((theme) => ({
+    centerField: {
+        textAlign: 'center',
+        marginTop: '3%',
+        marginBottom: '3%',
+    },
+    topMarginInput: {
+        marginTop: '2%',
+    }
+})
+);
 
 function BillSplit(){
-    const [totalBill, setTotalBill] = useState(0);
-    const [personCount, setPersonCount] = useState(0);
-    const [tipPercent, setTipPercent] = useState(0);
+    const classes = useStyles();
+
+    const [totalBill, setTotalBill] = useState('');
+    const [personCount, setPersonCount] = useState('');
+    const [tipPercent, setTipPercent] = useState('');
     const [totalSplit, setTotalSplit] = useState(0);
 
     const billPerPerson = totalBill / personCount;
@@ -13,27 +33,79 @@ function BillSplit(){
     
     useEffect(() => {
         setTotalSplit((eachShare)?eachShare:0);
+        console.log("Executing")
     }, [eachShare]);
     // const totalSplit = (()) / personCount;
     return (
-        <div className="areaBorder">
-            <h1>Bill Calculator</h1>
-            <div class = "bill">
-                <label for="totalAmount">Total Bill Amount : </label>
-                <input type="number" name="totalAmount" id="totalAmount" value={totalBill} onChange={(e) => setTotalBill(e.target.value)}/>
-            </div>
-            <div class = "person">
-                <label for="totalPerson">Total Persons : </label>
-                <input type="number" name="totalPerson" id="totalPerson" value={personCount} onChange={(e)=>setPersonCount(e.target.value)}/>
-
-                <label for="tipPerson">Tip Percent Per Person : </label>
-                <input type="number" min="1" max="100" name="tipPerson" id="tipPerson" value={tipPercent} onChange={(e) => setTipPercent(e.target.value)}/>
-            </div>
-            <div class="split">
-                <h1>Total Split Per Person</h1>
-                <p>{totalSplit}</p>
-            </div>
-        </div>
+        <Container maxwidth='sm'>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Typography 
+                    variant="h3" 
+                    color="textSecondary" 
+                    align="center"
+                    >Bill Calculator
+                </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <form noValidate autoComplete='off' className={classes.centerField}>
+                        <div>
+                            <TextField 
+                                className={classes.topMarginInput}
+                                autoFocus='true' 
+                                type="number" 
+                                display="initial" 
+                                id="totalAmount" 
+                                label="Total Amount" 
+                                variant="outlined" 
+                                value={totalBill} 
+                                color="primary" 
+                                onChange={(e) => setTotalBill(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <TextField 
+                                className={classes.topMarginInput}
+                                type="number" 
+                                id="totalPerson" 
+                                label="Total persons" 
+                                variant="outlined" 
+                                value={personCount} 
+                                onChange={(e)=>setPersonCount(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <TextField 
+                                className={classes.topMarginInput}
+                                type="number" 
+                                id="tipPerson" 
+                                label="Tip Percent" 
+                                variant="outlined" 
+                                value={tipPercent} 
+                                onChange={(e) => setTipPercent(e.target.value)}
+                            />
+                        </div>
+                    </form>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography 
+                        variant="h3" 
+                        color="textSecondary" 
+                        align="center"
+                        >Total Split Per Person
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography 
+                        className={classes.topMarginInput}
+                        variant="h3" 
+                        color="textSecondary" 
+                        align="center"
+                        >{totalSplit}
+                    </Typography>
+                </Grid>
+            </Grid>
+        </Container>
     );
 }
 
